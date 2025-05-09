@@ -93,11 +93,13 @@ class MainActivity : AppCompatActivity(), ViewPager2Provider {
         }
     }
 
-    fun scrollToPage(position: Int) {
-        binding.viewPager2.setCurrentItem(position, true)
+    private fun scrollToPage(position: Int) {
+        if (isDefaultLauncher(this)) {
+            binding.viewPager2.setCurrentItem(position, true)
+        }
     }
 
-    fun enableSwipe(enable: Boolean) {
+    private fun enableSwipe(enable: Boolean) {
         binding.viewPager2.isUserInputEnabled = enable
     }
 
@@ -147,6 +149,7 @@ class MainActivity : AppCompatActivity(), ViewPager2Provider {
             Toast.makeText(this, "The settings page cannot be opened", Toast.LENGTH_SHORT).show()
         }
     }
+
     private fun openSystemSettings() {
         lifecycleScope.launch(Dispatchers.Main) {
             delay(500)

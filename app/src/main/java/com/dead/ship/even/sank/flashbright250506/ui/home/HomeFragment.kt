@@ -83,13 +83,13 @@ class HomeFragment : Fragment() {
             try {
                 startActivity(Intent.createChooser(intent, "Share via"))
             } catch (ex: Exception) {
-                Toast.makeText(requireActivity(), "分享失败", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireActivity(), "Failed to share", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.tvPP.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://play.google.com")
+            intent.data = Uri.parse("https://sites.google.com/view/flashlight-launch/home")
             startActivity(intent)
         }
         binding.imgHome.setOnClickListener {
@@ -102,23 +102,21 @@ class HomeFragment : Fragment() {
             startActivity(Intent(requireActivity(), LightActivity::class.java))
         }
     }
-    /**
-     * 切换闪光灯状态
-     */
+
     private fun toggleFlashlight() {
         val cameraManager = requireActivity().getSystemService(Context.CAMERA_SERVICE) as CameraManager
         try {
-            val cameraId = cameraManager.cameraIdList[0] // 默认后置摄像头
+            val cameraId = cameraManager.cameraIdList[0]
             if (isFlashOn) {
-                cameraManager.setTorchMode(cameraId, false) // 关闭闪光灯
-                binding.imgFlash.setImageResource(R.drawable.icon_y) // 恢复原图
-                binding.imgTO.setImageResource(R.drawable.icon_t_o) // 恢复原图
+                cameraManager.setTorchMode(cameraId, false)
+                binding.imgFlash.setImageResource(R.drawable.icon_y)
+                binding.imgTO.setImageResource(R.drawable.icon_t_o)
             } else {
-                cameraManager.setTorchMode(cameraId, true) // 打开闪光灯
-                binding.imgFlash.setImageResource(R.drawable.icon_tun) // 替换为“开”的图标
-                binding.imgTO.setImageResource(R.drawable.icon_on) // 替换为“开”的图标
+                cameraManager.setTorchMode(cameraId, true)
+                binding.imgFlash.setImageResource(R.drawable.icon_tun)
+                binding.imgTO.setImageResource(R.drawable.icon_on)
             }
-            isFlashOn = !isFlashOn // 更新状态
+            isFlashOn = !isFlashOn
         } catch (e: Exception) {
             Toast.makeText(requireActivity(), "The flash cannot be controlled, please check the permissions or device support", Toast.LENGTH_LONG).show()
         }
